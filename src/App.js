@@ -1,24 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import { React } from "react";
+import "./index.css";
+import Nav from "./components/nav/Nav";
+import Footer from "./components/footer/Footer";
+import CourseCards from "./pages/coursecards/CourseCards";
+import { Route, Routes } from "react-router-dom";
+// import { styled } from "@mui/system";
+// import { Container, CssBaseline } from "@mui/material";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { ToastContainer } from "react-toastify";
+import { persistor, store } from "./redux/store";
+import UploadVideo from "./pages/uploadVideo/UploadVideo";
+import Login from "./pages/AuthPages/Login";
+import ForgotPassword from "./pages/AuthPages/ForgotPassword";
+import OTP from "./pages/AuthPages/OTP";
+import ConfirmPassword from "./pages/AuthPages/ConfirmPassword";
+import SignUp from "./pages/AuthPages/SignUp";
+import BuyCourse from "./pages/buyCourse/BuyCourse";
 
 function App() {
+
+
+
+
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <ToastContainer />
+        {/* <RootContainer> */}
+          {/* <CssBaseline /> */}
+          <Nav />
+          {/* <ContentContainer
+            component="main"
+            style={{ backgroundColor: "red" }}
+          > */}
+            <Routes>
+              <Route path="/SignUp" element={<SignUp />} />
+              <Route path="/logIn" element={<Login />} />
+              <Route path="/forgotPassword" element={<ForgotPassword />} />
+              <Route path="/otp" element={<OTP />} />
+              <Route path="/confirmPassword" element={<ConfirmPassword />} />
+              <Route exact path="/" element={<CourseCards />} />
+              <Route path="/uploadVideo" element={<UploadVideo />} />
+              <Route path="/buyCourse" element={<BuyCourse />} />
+            </Routes>
+          {/* </ContentContainer> */}
+          <Footer />
+        {/* </RootContainer> */}
+      </PersistGate>
+    </Provider>
   );
 }
 
