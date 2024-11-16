@@ -41,6 +41,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: "flex-end",
+
 }));
 
 const Search = styled("div")(({ theme }) => ({
@@ -196,8 +197,13 @@ export default function Nav() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
+      <AppBar position="static" style={{
+        backgroundColor: 'rgba(22, 22, 23, .8)'
+
+      }}>
+        <Toolbar
+        // style={{backgroundColor:'rgba(22, 22, 23, .8)'}}
+        >
           <IconButton
             size="large"
             edge="start"

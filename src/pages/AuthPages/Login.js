@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import EyeOffIcon from '../../assets/images/hide.png';
+import EyeIcon from '../../assets/images/view.png';
 
 const Login = () => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false); // Set default to false for hidden password
   const {
     register,
     handleSubmit,
@@ -25,9 +29,8 @@ const Login = () => {
         <label className="block text-black font-medium mb-2">Email Id</label>
         <input
           type="text"
-          className={`w-full p-2 border ${
-            errors.emailId ? "border-red-500" : "border-gray-300"
-          } rounded`}
+          className={`w-full p-2 border ${errors.emailId ? "border-red-500" : "border-gray-300"
+            } rounded`}
           {...register("emailId", {
             required: "Email Id is required",
             minLength: {
@@ -47,19 +50,27 @@ const Login = () => {
 
       <div className="mb-4">
         <label className="block text-gray-700 font-medium mb-2">Password</label>
-        <input
-          type="password"
-          className={`w-full p-2 border ${
-            errors.password ? "border-red-500" : "border-gray-300"
-          } rounded`}
-          {...register("password", {
-            required: "Password is required",
-            minLength: {
-              value: 6,
-              message: "Password must be at least 6 characters",
-            },
-          })}
-        />
+        <div className="relative">
+          <input
+            // type={showPassword ? "text" : "password"}
+            type="password"
+            className={`w-full p-2 border ${errors.password ? "border-red-500" : "border-gray-300"
+              } rounded pr-10`} // Add padding for the icon
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 6,
+                message: "Password must be at least 6 characters",
+              },
+            })}
+          />
+          <img
+            src={showPassword ? EyeOffIcon : EyeIcon}
+            alt="toggle visibility"
+            className="h-5 w-5 absolute right-2 top-5 transform -translate-y-1/2 cursor-pointer"
+            onClick={() => setShowPassword((prev) => !prev)}
+          />
+        </div>
         {errors.password && (
           <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
         )}

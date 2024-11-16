@@ -17,36 +17,41 @@ import OTP from "./pages/AuthPages/OTP";
 import ConfirmPassword from "./pages/AuthPages/ConfirmPassword";
 import SignUp from "./pages/AuthPages/SignUp";
 import BuyCourse from "./pages/buyCourse/BuyCourse";
+import Navbar from "./components/nav/TemporaryNavbar";
+
 
 function App() {
 
 
 
 
-  
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ToastContainer />
         {/* <RootContainer> */}
-          {/* <CssBaseline /> */}
-          <Nav />
-          {/* <ContentContainer
+        {/* <CssBaseline /> */}
+        {/* <Nav /> */}
+        <Navbar />
+        {/* <ContentContainer
             component="main"
             style={{ backgroundColor: "red" }}
           > */}
-            <Routes>
-              <Route path="/SignUp" element={<SignUp />} />
-              <Route path="/logIn" element={<Login />} />
-              <Route path="/forgotPassword" element={<ForgotPassword />} />
-              <Route path="/otp" element={<OTP />} />
-              <Route path="/confirmPassword" element={<ConfirmPassword />} />
-              <Route exact path="/" element={<CourseCards />} />
-              <Route path="/uploadVideo" element={<UploadVideo />} />
-              <Route path="/buyCourse" element={<BuyCourse />} />
-            </Routes>
-          {/* </ContentContainer> */}
-          <Footer />
+          <div className="pt-16">
+        <Routes>
+          <Route path="/SignUp" element={<SignUp />} />
+          <Route path="/logIn" element={<Login />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/otp" element={<OTP />} />
+          <Route path="/confirmPassword" element={<ConfirmPassword />} />
+          <Route exact path="/" element={<CourseCards />} />    
+          <Route path="/uploadVideo" element={<UploadVideo />} />
+          <Route path="/buyCourse" element={<BuyCourse />} />
+        </Routes>
+        </div>
+        {/* </ContentContainer> */}
+        <Footer />
         {/* </RootContainer> */}
       </PersistGate>
     </Provider>
