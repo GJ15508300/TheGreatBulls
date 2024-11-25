@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isLoading: false,
+  language: null,
+  selectedLan: null,
   userType: null,
   token: null,
 };
@@ -10,6 +12,12 @@ const authSlice = createSlice({
   initialState,
   name: "auth",
   reducers: {
+    languageSelection(state, action) {
+      state.language = action.payload;
+    },
+    selectedlanguage(state, action) {
+      state.selectedLan = action.payload;
+    },
     UserType(state, action) {
       state.userType = action.payload;
     },
@@ -18,6 +26,6 @@ const authSlice = createSlice({
     },
   },
 });
-export const { UserType } = authSlice.actions;
+export const { languageSelection, selectedlanguage, UserType, } = authSlice.actions;
 
 export default authSlice.reducer;

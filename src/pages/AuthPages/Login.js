@@ -16,6 +16,7 @@ const Login = () => {
   const onSubmit = (data) => {
     // Add your login logic here using the data object
     console.log("Login successful", data);
+    // navigate('/')
   };
 
   return (
