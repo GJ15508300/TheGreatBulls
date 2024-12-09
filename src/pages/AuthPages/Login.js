@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import EyeOffIcon from '../../assets/images/hide.png';
-import EyeIcon from '../../assets/images/view.png';
+import EyeOffIcon from "../../assets/images/hide.png";
+import EyeIcon from "../../assets/images/view.png";
+import { useDispatch, useSelector } from "react-redux";
+import { lang } from "../../redux/selector";
+import { loginRequest, UserDetails } from "../../redux/slices/authSlice";
+import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
+import { login } from "../../services/api";
 
 const Login = () => {
   const navigate = useNavigate();
+  const language = useSelector(lang);
+  const dispatch = useDispatch();
+  const Auth = useSelector((state) => state?.auth);
+  // console.log("Redux Auth : ", Auth);
+
   const [showPassword, setShowPassword] = useState(false); // Set default to false for hidden password
   const {
     register,
@@ -13,10 +24,66 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    // Add your login logic here using the data object
-    console.log("Login successful", data);
-    // navigate('/')
+  // useEffect(() => {
+  // console.log(
+  //   "Auth?.authLogin?.data?.access_token",
+  //   Auth?.authLogin?.data?.access_token
+  // );
+
+  // if (Auth?.authLogin?.data?.access_token) {
+  // const token = Auth?.authLogin?.data?.access_token;
+  // console.log("token", token);
+
+  // const decodedToken = jwtDecode(token);
+  // console.log("decodedToken", decodedToken);
+  // dispatch(userDetails(decodedToken));
+  // toast.dismiss();
+  // toast.success("Login successful", {
+  //   autoClose: 10000,
+  // });
+  // navigate("/courseCards");
+  // } else {
+  // toast.dismiss();
+  // toast.error(Auth?.error?.message, {
+  //   autoClose: 20000,
+  // });
+  // }
+  // }, [Auth?.authLogin?.data?.access_token]);
+
+  const onSubmit = async (data) => {
+    toast.dismiss();
+    let payload = {
+      email: data?.emailId,
+      password: data?.password,
+    };
+    // console.log("Login payload", payload);
+    login(payload)
+      .then((res) => {
+        // console.log("Login Response : ", res?.data);
+        if (res?.data?.access_token) {
+          localStorage.setItem("AuthToken", res?.data?.access_token);
+          const decodedToken = jwtDecode(res?.data?.access_token);
+          console.log("login result decodedToken", decodedToken);
+          dispatch(UserDetails(decodedToken));
+          toast.success("Login successful", {
+            autoClose: 10,
+          });
+          navigate("/courseCards");
+          // decodedToken?.role === "student"
+          // ? navigate("/courseCards")
+          // : navigate("/dashBoard");
+        } else {
+          toast.error("Something wrong, please try again later", {
+            autoClose: 20000,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("Login Error : ", err);
+        toast.error(err?.response?.data?.message, {
+          autoClose: 20000,
+        });
+      });
   };
 
   return (
@@ -24,14 +91,24 @@ const Login = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="max-w-md mx-auto p-6 rounded-lg shadow-lg bg-white"
     >
-      <h2 className="text-2xl font-semibold mb-4">Login Form</h2>
+      <h1 className="text-2xl font-bold mb-4 justify-center items-center flex">
+        {language?.Login}
+      </h1>
+      <h6 className="mb-4 justify-center items-center flex">
+        {
+          language?.ToKeepConnectedWithUsPleaseLoginWithYourPersonalInformationByEmailAddressAndPassword
+        }
+      </h6>
 
       <div className="mb-4">
-        <label className="block text-black font-medium mb-2">Email Id</label>
+        <label className="block text-black font-medium mb-2">
+          {language?.EmailId}
+        </label>
         <input
           type="text"
-          className={`w-full p-2 border ${errors.emailId ? "border-red-500" : "border-gray-300"
-            } rounded`}
+          className={`w-full p-2 border ${
+            errors.emailId ? "border-red-500" : "border-gray-300"
+          } rounded`}
           {...register("emailId", {
             required: "Email Id is required",
             minLength: {
@@ -50,13 +127,16 @@ const Login = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2">Password</label>
+        <label className="block text-gray-700 font-medium mb-2">
+          {language?.Password}
+        </label>
         <div className="relative">
           <input
             // type={showPassword ? "text" : "password"}
             type="password"
-            className={`w-full p-2 border ${errors.password ? "border-red-500" : "border-gray-300"
-              } rounded pr-10`} // Add padding for the icon
+            className={`w-full p-2 border ${
+              errors.password ? "border-red-500" : "border-gray-300"
+            } rounded pr-10`} // Add padding for the icon
             {...register("password", {
               required: "Password is required",
               minLength: {
@@ -65,12 +145,12 @@ const Login = () => {
               },
             })}
           />
-          <img
+          {/* <img
             src={showPassword ? EyeOffIcon : EyeIcon}
             alt="toggle visibility"
             className="h-5 w-5 absolute right-2 top-5 transform -translate-y-1/2 cursor-pointer"
             onClick={() => setShowPassword((prev) => !prev)}
-          />
+          /> */}
         </div>
         {errors.password && (
           <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
@@ -83,13 +163,13 @@ const Login = () => {
           {...register("rememberMe")}
           className="mr-2 text-primary focus:ring-0"
         />
-        <label className="text-gray-700">Remember Me</label>
+        <label className="text-gray-700">{language?.RememberMe}</label>
       </div>
       <button
         type="submit"
         className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition-colors"
       >
-        Login
+        {language?.Login}
       </button>
       <div className="text-center mt-4">
         <a
@@ -100,7 +180,7 @@ const Login = () => {
             navigate("/forgotPassword");
           }}
         >
-          Forgot Password?
+          {language?.ForgotPassword}?
         </a>
         <div className="mt-2">
           <a
@@ -110,7 +190,7 @@ const Login = () => {
               navigate("/signUp");
             }}
           >
-            Don’t have an account? Sign Up
+            {language?.DontHaveAnAccount}? {language?.SignUp}
           </a>
         </div>
       </div>

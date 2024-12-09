@@ -1,11 +1,11 @@
-import { React, useEffect, useState } from "react";
+import { React, useState } from "react";
 import "./index.css";
-import Footer from "./components/footer/Footer";
 import CourseCards from "./pages/coursecards/CourseCards";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { persistor, store } from "./redux/store";
 import Login from "./pages/AuthPages/Login";
 import ForgotPassword from "./pages/AuthPages/ForgotPassword";
@@ -13,7 +13,6 @@ import OTP from "./pages/AuthPages/OTP";
 import ConfirmPassword from "./pages/AuthPages/ConfirmPassword";
 import SignUp from "./pages/AuthPages/SignUp";
 import BuyCourse from "./pages/buyCourse/BuyCourse";
-import Navbar from "./components/nav/TemporaryNavbar";
 import { StoreAuth } from "./components/storeAuth/StoreAuth";
 import ContactForm from "./pages/contact/ContactForm";
 import RefundPolicy from "./pages/refundPolicy/RefundPolicy";
@@ -34,29 +33,33 @@ import AdminPrivacyPolicy from "./pages/Admin/AdminPrivacyPolicy/AdminPrivacyPol
 import AdminRefundPolicy from "./pages/Admin/AdminRefundPolicy/AdminRefundPolicy";
 import ContactRequest from "./pages/Admin/ContactReq/ContactRequest";
 import PageNotFound from "./components/PageNotFound/PageNotFound";
+import MyProfile from "./components/profile/MyProfile";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 function App() {
-  const [checkAuth, setCheckAuth] = useState(null);
+  const [checkAuth, setCheckAuth] = useState("");
   const [loadLan, setLoadLang] = useState(true);
+  console.log("checkAuth", checkAuth);
 
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <ToastContainer />
-        <StoreAuth checkAuth={checkAuth} setLoadLang={setLoadLang} />
+        <StoreAuth
+          checkAuth={checkAuth}
+          setCheckAuth={setCheckAuth}
+          setLoadLang={setLoadLang}
+        />
 
         <Routes>
-          {/* Route for Home (No Navbar or Footer) */}
           <Route exact path="/" element={<Home />} />
 
           <Route
             path="*"
             element={
               <>
-              {true ?
                 <MainLayout>
                   <Routes>
-                    <Route path="/courseCards" element={<CourseCards />} />
                     <Route path="/signUp" element={<SignUp />} />
                     <Route path="/logIn" element={<Login />} />
                     <Route
@@ -68,6 +71,7 @@ function App() {
                       path="/confirmPassword"
                       element={<ConfirmPassword />}
                     />
+                    <Route path="/courseCards" element={<CourseCards />} />
                     <Route path="/uploadVideo" element={<UploadVideo />} />
                     <Route path="/buyCourse" element={<BuyCourse />} />
                     <Route path="/contactForm" element={<ContactForm />} />
@@ -77,35 +81,104 @@ function App() {
                       path="/termsOfService"
                       element={<TermsOfService />}
                     />
-                    <Route path="*" element={<PageNotFound />} />
-                  </Routes>
-                </MainLayout>
-                :
-                <Layout>
-                  <Routes>
-                    <Route path="/dashBoard" element={<DashBoard />} />
-                    <Route path="/userList" element={<UserList />} />
-                    <Route path="/faqList" element={<FaqList />} />
-                    <Route path="/addNewFaq" element={<AddNewFaq />} />
-                    <Route path="/courseList" element={<CourseList />} />
-                    <Route path="/addNewCourse" element={<AddNewCourse />} />
-                    <Route path="/contactRequest" element={<ContactRequest />} />
+                    <Route path="/myProfile" element={<MyProfile />} />
+
+                    {/*  */}
+                    {/*  */}
+                    {/*  */}
+                    {/*  */}
+
+                    <Route
+                      path="/dashBoard"
+                      element={
+                        <ProtectedRoute role="admin">
+                          <DashBoard />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/userList"
+                      element={
+                        <ProtectedRoute role="admin">
+                          <UserList />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/faqList"
+                      element={
+                        <ProtectedRoute role="admin">
+                          <FaqList />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/addNewFaq"
+                      element={
+                        <ProtectedRoute role="admin">
+                          <AddNewFaq />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/courseList"
+                      element={
+                        <ProtectedRoute role="admin">
+                          <CourseList />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/addNewCourse"
+                      element={
+                        <ProtectedRoute role="admin">
+                          <AddNewCourse />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/contactRequest"
+                      element={
+                        <ProtectedRoute role="admin">
+                          <ContactRequest />
+                        </ProtectedRoute>
+                      }
+                    />
                     <Route
                       path="/adminTermsOfService"
-                      element={<AdminTermsOfService />}
+                      element={
+                        <ProtectedRoute role="admin">
+                          <AdminTermsOfService />
+                        </ProtectedRoute>
+                      }
                     />
                     <Route
                       path="/adminPrivacyPolicy"
-                      element={<AdminPrivacyPolicy />}
+                      element={
+                        <ProtectedRoute role="admin">
+                          <AdminPrivacyPolicy />
+                        </ProtectedRoute>
+                      }
                     />
                     <Route
                       path="/adminRefundPolicy"
-                      element={<AdminRefundPolicy />}
+                      element={
+                        <ProtectedRoute role="admin">
+                          <AdminRefundPolicy />
+                        </ProtectedRoute>
+                      }
                     />
-                     <Route path="*" element={<PageNotFound />} />
+                    <Route
+                      path="/myProfile"
+                      element={
+                        <ProtectedRoute role="admin">
+                          <MyProfile />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route path="*" element={<PageNotFound />} />
                   </Routes>
-                </Layout>
-            }
+                </MainLayout>
               </>
             }
           />

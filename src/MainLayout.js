@@ -2,14 +2,14 @@ import Footer from "./components/footer/Footer";
 import Navbar from "./components/nav/TemporaryNavbar";
 
 const MainLayout = ({ children }) => {
-    return (
-      <>
-        <Navbar />
-        <div className="mt-28">{children}</div>
-        <Footer />
-      </>
-    );
-  };
-  
-  export default MainLayout;
-  
+  return (
+    <div>
+      <Navbar />
+      {/* bg-gradient-to-b from-gray-600 to-gray-0  */}
+      <div className="py-28">{children}</div>
+      <Footer />
+    </div>
+  );
+};
+
+export default MainLayout;

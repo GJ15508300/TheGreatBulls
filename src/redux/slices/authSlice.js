@@ -2,10 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isLoading: false,
+  error: null,
   language: null,
   selectedLan: null,
-  userType: null,
+  userRole: null,
+  userDetails: null,
   token: null,
+  //
+  authLogin: null,
 };
 
 const authSlice = createSlice({
@@ -18,14 +22,47 @@ const authSlice = createSlice({
     selectedlanguage(state, action) {
       state.selectedLan = action.payload;
     },
-    UserType(state, action) {
-      state.userType = action.payload;
+
+    UserRole(state, action) {
+      state.userRole = action.payload;
     },
-    AuthToken(state, action) {
-      state.AuthToken = action.payload;
+
+    UserDetails(state, action) {
+      state.userDetails = action.payload;
+    },
+
+    // AuthToken(state, action) {
+    //   state.AuthToken = action.payload;
+    // },
+
+    // API Call
+    loginRequest(state, action) {
+      state.isLoading = true;
+      state.error = null;
+      state.authLogin = null;
+    },
+    loginSucess(state, action) {
+      console.log("loginSucess action", action.payload.data);
+      localStorage.setItem("AuthToken", action.payload?.data?.access_token);
+      state.authLogin = action.payload;
+      state.isLoading = false;
+    },
+    loginFailure(state, action) {
+      console.log("loginFailure action", action.payload.data);
+      state.error = action.payload.data;
+      state.isLoading = false;
     },
   },
 });
-export const { languageSelection, selectedlanguage, UserType, } = authSlice.actions;
+export const {
+  languageSelection,
+  selectedlanguage,
+  UserRole,
+  UserDetails,
+  //
+  loginRequest,
+  loginSucess,
+  loginFailure,
+} = authSlice.actions;
 
 export default authSlice.reducer;

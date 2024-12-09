@@ -1,9 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { languages } from './Languages';
 import { setSelectedLanguage } from "./GetSelectedLang";
+import { useDispatch } from "react-redux";
 
 const SelectLang = ({ open, onClose }) => {
     const modalRef = useRef(null);
+    const dispatch = useDispatch();
 
     // Handle click outside
     useEffect(() => {
@@ -47,7 +49,7 @@ const SelectLang = ({ open, onClose }) => {
                         key={item.id}
                         className="py-3 cursor-pointer"
                         onClick={() => {
-                            setSelectedLanguage(item?.setLang)
+                            setSelectedLanguage(dispatch,item?.setLang)
                             onClose(); // Close the modal after setting the language
                         }}
                     >

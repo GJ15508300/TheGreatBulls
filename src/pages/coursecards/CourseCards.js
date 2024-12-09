@@ -6,7 +6,7 @@ export default function CourseCards() {
   const navigate = useNavigate();
   const language = useSelector(lang);
 
-  console.log("language", language);
+  // console.log("language", language);
 
   const data = [
     {
@@ -68,7 +68,7 @@ export default function CourseCards() {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-4 lg:max-w-screen-lg ">
+    <div className="container mx-auto px-4 py-4 lg:max-w-screen-lg">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:grid-cols-4">
         {data.map((elem, index) => (
           <div
@@ -95,7 +95,7 @@ export default function CourseCards() {
             <div
               className="absolute inset-0 bg-black bg-opacity-70 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 flex items-center justify-center cursor-pointer"
               onClick={() => {
-                navigate("./buyCourse");
+                navigate("/buyCourse");
               }}
             >
               <div className="text-center">

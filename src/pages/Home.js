@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import AppIcon from "../assets/images/bull.png";
+// import { useSelector } from "react-redux";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -8,29 +9,35 @@ const Home = () => {
   const faqs = [
     {
       question: "What is TheGreatBulls?",
-      answer: "TheGreatBulls is a platform for learning and development through premium courses.",
+      answer:
+        "TheGreatBulls is a platform for learning and development through premium courses.",
     },
     {
       question: "How can I enroll in a course?",
-      answer: "Click on the 'Enroll Now' button to view available courses and start learning.",
+      answer:
+        "Click on the 'Enroll Now' button to view available courses and start learning.",
     },
     {
       question: "Is there a refund policy?",
-      answer: "Yes, we offer a refund policy for eligible courses. Check our refund policy page for details.",
+      answer:
+        "Yes, we offer a refund policy for eligible courses. Check our refund policy page for details.",
     },
   ];
 
   return (
     <div className="flex flex-col items-center bg-gray-50 text-gray-800 min-h-screen">
       {/* Header Section */}
-      <header className="w-full bg-slate-500 p-4">
+      <header className="w-full bg-gradient-to-b from-slate-500 to-slate-800 p-4">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between">
           <div className="flex items-center">
             <img src={AppIcon} alt="App Icon" className="h-12 w-12 mr-2" />
             <p className="text-red-500 font-bold text-2xl">TheGreatBulls</p>
           </div>
           <div className="text-white mt-2 md:mt-0">
-            <p>Subscribe on YouTube: <span className="font-bold">10k Subscribers</span></p>
+            <p>
+              Subscribe on YouTube:{" "}
+              <span className="font-bold">10k Subscribers</span>
+            </p>
           </div>
         </div>
       </header>
@@ -41,7 +48,8 @@ const Home = () => {
           Welcome to TheGreatBulls
         </h1>
         <p className="text-center text-lg mb-6">
-          Your go-to platform for learning, development, and growth. Explore our courses and start your journey today!
+          Your go-to platform for learning, development, and growth. Explore our
+          courses and start your journey today!
         </p>
         <button
           onClick={() => navigate("/courseCards")}
@@ -53,7 +61,9 @@ const Home = () => {
 
       {/* FAQ Section */}
       <section className="w-full bg-white py-8 px-4">
-        <h2 className="text-3xl font-bold text-center mb-6">Frequently Asked Questions</h2>
+        <h2 className="text-3xl font-bold text-center mb-6">
+          Frequently Asked Questions
+        </h2>
         <div className="max-w-4xl mx-auto space-y-4">
           {faqs.map((faq, index) => (
             <div key={index} className="border-b border-gray-200 pb-4">
@@ -65,7 +75,7 @@ const Home = () => {
       </section>
 
       {/* Footer Section */}
-      <footer className="w-full bg-slate-600 text-white py-6">
+      <footer className="w-full bg-gradient-to-b from-slate-700 to-slate-400 text-white py-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center px-4">
           <p className="text-center md:text-left text-sm">
             © {new Date().getFullYear()} TheGreatBulls. All rights reserved.
@@ -77,10 +87,7 @@ const Home = () => {
             >
               Privacy Policy
             </a>
-            <a
-              href="/refundPolicy"
-              className="text-white hover:underline mx-2"
-            >
+            <a href="/refundPolicy" className="text-white hover:underline mx-2">
               Refund Policy
             </a>
             <a

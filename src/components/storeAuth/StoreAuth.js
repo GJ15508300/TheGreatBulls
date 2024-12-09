@@ -1,21 +1,42 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useSelectedLanguage } from "../lang/GetSelectedLang";
+import { jwtDecode } from "jwt-decode";
+import { UserDetails, UserRole } from "../../redux/slices/authSlice";
 
-export const StoreAuth = ({ checkAuth, setLoadLang }) => {
+export const StoreAuth = ({ checkAuth, setCheckAuth, setLoadLang }) => {
   const dispatch = useDispatch();
-  const routeName = useSelector((state) => state?.auth);
-  const getSelectedLanguage = useSelectedLanguage();
+  const routeName = useSelector((state) => state);
 
   useEffect(() => {
-    const lang = getSelectedLanguage();
-    console.log("Selected Language:", lang);
+    const AuthToken = localStorage.getItem("AuthToken");
+    // console.log(" store AuthToken", AuthToken);
 
-    // dispatch(getAuthId(JSON.parse(checkAuth)));
+    if (AuthToken) {
+      const decodedAuthToken = jwtDecode(AuthToken);
+      // console.log("decodedAuthToken", decodedAuthToken);
+      // dispatch(UserDetails(decodedAuthToken));
+      if (decodedAuthToken?.role === "student") {
+        dispatch(UserRole("student"));
+        setCheckAuth("student");
+      } else {
+        dispatch(UserRole("admin"));
+        setCheckAuth("admin");
+      }
+    } else {
+      setCheckAuth("student");
+    }
     setTimeout(() => {
       setLoadLang(false);
     }, 100);
-  }, [checkAuth, dispatch, setLoadLang]);
+  }, [checkAuth, dispatch, setLoadLang, routeName]);
+
+  useEffect(() => {
+    const AuthToken = localStorage.getItem("AuthToken");
+    if (AuthToken) {
+      const decodedAuthToken = jwtDecode(AuthToken);
+      dispatch(UserDetails(decodedAuthToken));
+    }
+  }, []);
 
   return null;
 };

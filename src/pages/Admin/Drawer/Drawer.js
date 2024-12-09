@@ -1,19 +1,9 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import USER from "../../../assets/images/user.png";
-import { useState } from "react";
-import LogOutModal from "../../AuthPages/LogOutModal";
 
 const Drawer = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isLogoutModalOpen, setLogoutModalOpen] = useState(false);
-
-  const handleLogout = () => {
-    // Perform logout actions here, like clearing tokens or redirecting
-    console.log("Logged out");
-    setLogoutModalOpen(false);
-    navigate('/')
-  };
 
   return (
     <div className="h-screen w-60 bg-gray-800 text-white fixed pt-10">
@@ -110,20 +100,14 @@ const Drawer = () => {
 
           <li>
             <button
-              onClick={() => setLogoutModalOpen(true)}
+              onClick={() => navigate("/courseCards")}
               className="block w-full text-left px-4 py-2 hover:bg-gray-700"
             >
-              Log out
+              Back
             </button>
           </li>
         </ul>
       </nav>
-
-      <LogOutModal
-        isOpen={isLogoutModalOpen}
-        onClose={() => setLogoutModalOpen(false)}
-        onConfirm={handleLogout}
-      />
     </div>
   );
 };

@@ -8,10 +8,11 @@ import { useLocation } from "react-router-dom";
 export default function Footer() {
   const location = useLocation();
 
-  console.log("location?.pathname", location?.pathname);
-
+  // console.log("location?.pathname", location?.pathname);
+  // bg-gradient-to-b from-slate-700 to-slate-100
+  
   return (
-    <footer className="bg-gray-100 text-black py-8 px-6 mt-16">
+    <footer className="bg-gray-200 text-black py-8 px-6">
       <div className="max-w-screen-lg mx-auto">
         {/* Company Name */}
         <div className="text-center text-2xl font-bold mb-6">
@@ -24,65 +25,60 @@ export default function Footer() {
             href="https://facebook.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:bg-white text-2xl sm:text-xl border-2 p-2"
+            className="hover:bg-white text-2xl sm:text-xl border-2 p-2 rounded-md"
           >
             <img
               src={Facebook}
               alt="Facebook"
               className="h-5 w-5"
-              // onClick={() => setShowPassword((prev) => !prev)}
             />
           </a>
           <a
             href="https://twitter.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:bg-white text-2xl sm:text-xl border-2 p-2"
+            className="hover:bg-white text-2xl sm:text-xl border-2 p-2 rounded-md"
           >
             <img
               src={Twitter}
               alt="Twitter"
               className="h-5 w-5"
-              // onClick={() => setShowPassword((prev) => !prev)}
             />
           </a>
           <a
             href="https://instagram.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:bg-white text-2xl sm:text-xl border-2 p-2"
+            className="hover:bg-white text-2xl sm:text-xl border-2 p-2 rounded-md"
           >
             <img
               src={Instagram}
               alt="Instagram"
               className="h-5 w-5"
-              // onClick={() => setShowPassword((prev) => !prev)}
             />
           </a>
           <a
             href="https://linkedin.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:bg-white text-2xl sm:text-xl border-2 p-2"
+            className="hover:bg-white text-2xl sm:text-xl border-2 p-2 rounded-md"
           >
             <img
               src={Linkedin}
               alt="Linkedin"
               className="h-5 w-5"
-              // onClick={() => setShowPassword((prev) => !prev)}
             />
           </a>
           <a
             href="https://youtube.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:bg-white text-2xl sm:text-xl border-2 p-2"
+            className="hover:bg-white text-2xl sm:text-xl border-2 p-2 rounded-md"
           >
             <img
               src={Youtube}
               alt="Youtube"
               className="h-5 w-5"
-              // onClick={() => setShowPassword((prev) => !prev)}
             />
           </a>
         </div>

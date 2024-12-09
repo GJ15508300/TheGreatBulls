@@ -12,10 +12,10 @@ export const userOtpRes = createSelector(
   (otp) => otp,
 );
 
-export const userDetails = createSelector(
-  [(state) => state.auth.authLogin],
-  (authLogin) => authLogin,
-);
+// export const userDetails = createSelector(
+//   [(state) => state.auth.authLogin],
+//   (authLogin) => authLogin,
+// );
 
 export const userStatus = createSelector(
   [(state) => state.auth.bureauData],
