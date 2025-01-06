@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import "./index.css";
 import CourseCards from "./pages/coursecards/CourseCards";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { ToastContainer } from "react-toastify";
@@ -20,7 +20,6 @@ import PrivacyPolicy from "./pages/privacyPolicy/PrivacyPolicy";
 import TermsOfService from "./pages/termsOfService/TermsOfService";
 import Home from "./pages/Home";
 import MainLayout from "./MainLayout";
-import Layout from "./pages/Admin/Layout/Layout";
 import DashBoard from "./pages/Admin/DashBoard/DashBoard";
 import UserList from "./pages/Admin/UserList/UserList";
 import UploadVideo from "./pages/Admin/UploadVideo.js/UploadVideo";
@@ -31,15 +30,17 @@ import CourseList from "./pages/Admin/CourseList/CourseList";
 import AddNewCourse from "./pages/Admin/CourseList/AddNewCourse";
 import AdminPrivacyPolicy from "./pages/Admin/AdminPrivacyPolicy/AdminPrivacyPolicy";
 import AdminRefundPolicy from "./pages/Admin/AdminRefundPolicy/AdminRefundPolicy";
-import ContactRequest from "./pages/Admin/ContactReq/ContactRequest";
 import PageNotFound from "./components/PageNotFound/PageNotFound";
 import MyProfile from "./components/profile/MyProfile";
 import { ProtectedRoute } from "./ProtectedRoute";
+import EmailConfirmation from "./pages/AuthPages/EmailConfirmation";
+import ShowFaqList from "./pages/ShowFaqList/ShowFaqList";
+import ContactRequestList from "./pages/Admin/ContactReq/ContactRequestList";
 
 function App() {
   const [checkAuth, setCheckAuth] = useState("");
   const [loadLan, setLoadLang] = useState(true);
-  console.log("checkAuth", checkAuth);
+  // console.log("checkAuth", checkAuth);
 
   return (
     <Provider store={store}>
@@ -61,6 +62,10 @@ function App() {
                 <MainLayout>
                   <Routes>
                     <Route path="/signUp" element={<SignUp />} />
+                    <Route
+                      path="/emailConfirmation"
+                      element={<EmailConfirmation />}
+                    />
                     <Route path="/logIn" element={<Login />} />
                     <Route
                       path="/forgotPassword"
@@ -77,6 +82,7 @@ function App() {
                     <Route path="/contactForm" element={<ContactForm />} />
                     <Route path="/refundPolicy" element={<RefundPolicy />} />
                     <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+                    <Route path="/showFaqList" element={<ShowFaqList />} />
                     <Route
                       path="/termsOfService"
                       element={<TermsOfService />}
@@ -140,7 +146,7 @@ function App() {
                       path="/contactRequest"
                       element={
                         <ProtectedRoute role="admin">
-                          <ContactRequest />
+                          <ContactRequestList />
                         </ProtectedRoute>
                       }
                     />

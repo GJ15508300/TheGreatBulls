@@ -7,7 +7,7 @@ const initialState = {
   selectedLan: null,
   userRole: null,
   userDetails: null,
-  token: null,
+  AuthTokenData: null,
   //
   authLogin: null,
 };
@@ -31,27 +31,27 @@ const authSlice = createSlice({
       state.userDetails = action.payload;
     },
 
-    // AuthToken(state, action) {
-    //   state.AuthToken = action.payload;
-    // },
+    AuthToken(state, action) {
+      state.AuthTokenData = action.payload;
+    },
 
-    // API Call
-    loginRequest(state, action) {
-      state.isLoading = true;
-      state.error = null;
-      state.authLogin = null;
-    },
-    loginSucess(state, action) {
-      console.log("loginSucess action", action.payload.data);
-      localStorage.setItem("AuthToken", action.payload?.data?.access_token);
-      state.authLogin = action.payload;
-      state.isLoading = false;
-    },
-    loginFailure(state, action) {
-      console.log("loginFailure action", action.payload.data);
-      state.error = action.payload.data;
-      state.isLoading = false;
-    },
+    // // API Call
+    // loginRequest(state, action) {
+    //   state.isLoading = true;
+    //   state.error = null;
+    //   state.authLogin = null;
+    // },
+    // loginSucess(state, action) {
+    //   console.log("loginSucess action", action.payload.data);
+    //   localStorage.setItem("AuthToken", action.payload?.data?.access_token);
+    //   state.authLogin = action.payload;
+    //   state.isLoading = false;
+    // },
+    // loginFailure(state, action) {
+    //   console.log("loginFailure action", action.payload.data);
+    //   state.error = action.payload.data;
+    //   state.isLoading = false;
+    // },
   },
 });
 export const {
@@ -59,6 +59,7 @@ export const {
   selectedlanguage,
   UserRole,
   UserDetails,
+  AuthToken,
   //
   loginRequest,
   loginSucess,

@@ -1,40 +1,53 @@
-import React, { useState } from "react";
-// import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { getPrivacyPolicy, postPrivacyPolicy } from "../../../services/api";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 const AdminPrivacyPolicy = () => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const authToken = useSelector((state) => state?.auth?.AuthTokenData);
+  const [editorValue, setEditorValue] = useState();
+
+  useEffect(() => {
+    getPrivacyPolicy()
+      .then((res) => {
+        // console.log("Get Privacy Policy Response :", res?.data);
+        setEditorValue(res?.data[0]?.content);
+      })
+      .catch((err) => {
+        console.log("Get Privacy Policy Error :", err);
+      });
+  }, []);
 
   const handleSave = async () => {
-    // try {
-    //   // Replace with your backend API endpoint
-    //   const apiUrl = "https://your-backend-url.com/api/terms-of-service";
-    //   const response = await axios.post(apiUrl, {
-    //     title,
-    //     content,
-    //   });
-    //   alert("Terms of Service updated successfully!");
-    // } catch (error) {
-    //   console.error("Error updating Terms of Service:", error);
-    //   alert("Failed to update Terms of Service.");
-    // }
+    let payload = {
+      content: editorValue,
+    };
+    postPrivacyPolicy(payload, authToken)
+      .then((res) => {
+        // console.log("Post Privacy Policy Response : ", res);
+        if (res?.status === 201) {
+          toast.success("Privacy Policy updated successfully");
+        } else {
+          toast.error("Something went wrong please try again later");
+        }
+      })
+      .catch((err) => {
+        console.log("Post Privacy Policy Error : ", err);
+        toast.error("Something went wrong please try again later");
+      });
   };
-
-  console.log("content", content);
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Privacy Policy</h1>
-      
+      <h1 className="text-6xl font-bold mb-4 text-center">Privacy Policy</h1>
+
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Content:</label>
         <ReactQuill
-          value={content}
-          onChange={setContent}
-          className="bg-white"
-          placeholder="Enter the content with formatting"
+          value={editorValue}
+          onChange={setEditorValue}
+          theme="snow"
         />
       </div>
       <button

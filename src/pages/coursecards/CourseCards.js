@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {lang} from '../../redux/selector';
+import { lang } from "../../redux/selector";
 
 export default function CourseCards() {
   const navigate = useNavigate();
@@ -105,6 +105,13 @@ export default function CourseCards() {
             </div>
           </div>
         ))}
+        <video controls width="600">
+          <source
+            src="http://localhost:3000/uploads/videos/1733833473732.mp4"
+            type="video/mp4"
+          />
+          Your browser does not support the video tag.
+        </video>
       </div>
     </div>
   );

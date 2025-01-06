@@ -10,7 +10,7 @@ export default function Footer() {
 
   // console.log("location?.pathname", location?.pathname);
   // bg-gradient-to-b from-slate-700 to-slate-100
-  
+
   return (
     <footer className="bg-gray-200 text-black py-8 px-6">
       <div className="max-w-screen-lg mx-auto">
@@ -27,11 +27,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="hover:bg-white text-2xl sm:text-xl border-2 p-2 rounded-md"
           >
-            <img
-              src={Facebook}
-              alt="Facebook"
-              className="h-5 w-5"
-            />
+            <img src={Facebook} alt="Facebook" className="h-5 w-5" />
           </a>
           <a
             href="https://twitter.com"
@@ -39,11 +35,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="hover:bg-white text-2xl sm:text-xl border-2 p-2 rounded-md"
           >
-            <img
-              src={Twitter}
-              alt="Twitter"
-              className="h-5 w-5"
-            />
+            <img src={Twitter} alt="Twitter" className="h-5 w-5" />
           </a>
           <a
             href="https://instagram.com"
@@ -51,11 +43,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="hover:bg-white text-2xl sm:text-xl border-2 p-2 rounded-md"
           >
-            <img
-              src={Instagram}
-              alt="Instagram"
-              className="h-5 w-5"
-            />
+            <img src={Instagram} alt="Instagram" className="h-5 w-5" />
           </a>
           <a
             href="https://linkedin.com"
@@ -63,11 +51,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="hover:bg-white text-2xl sm:text-xl border-2 p-2 rounded-md"
           >
-            <img
-              src={Linkedin}
-              alt="Linkedin"
-              className="h-5 w-5"
-            />
+            <img src={Linkedin} alt="Linkedin" className="h-5 w-5" />
           </a>
           <a
             href="https://youtube.com"
@@ -75,11 +59,7 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="hover:bg-white text-2xl sm:text-xl border-2 p-2 rounded-md"
           >
-            <img
-              src={Youtube}
-              alt="Youtube"
-              className="h-5 w-5"
-            />
+            <img src={Youtube} alt="Youtube" className="h-5 w-5" />
           </a>
         </div>
 
@@ -125,7 +105,14 @@ export default function Footer() {
           >
             Terms of Service
           </a>
-          <a href="/faq" className="hover:underline hover:text-blue-600">
+          <a
+            href="/showFaqList"
+            className={`hover:underline hover:text-blue-600 ${
+              location?.pathname === "/showFaqList"
+                ? "text-blue-600 underline pointer-events-none cursor-default"
+                : "text-black"
+            }`}
+          >
             FAQ
           </a>
           <a href="/support" className="hover:underline hover:text-blue-600">

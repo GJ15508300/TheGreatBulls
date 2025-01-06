@@ -8,7 +8,7 @@ import { lang } from "../../redux/selector";
 import { useDispatch, useSelector } from "react-redux";
 import PROFILE from "../../assets/images/profile-img.png";
 import LogOutModal from "../../pages/AuthPages/LogOutModal";
-import { UserDetails, UserRole } from "../../redux/slices/authSlice";
+import { AuthToken, UserDetails, UserRole } from "../../redux/slices/authSlice";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const Navbar = () => {
   // console.log("User_Role", User_Role);
 
   // console.log("  location?.pathname", location?.pathname);
-  console.log("isOpen", isOpen);
+  // console.log("isOpen", isOpen);
 
   // useEffect(() => {
   //   console.log("window.innerWidth", window.innerWidth);
@@ -54,6 +54,7 @@ const Navbar = () => {
     localStorage.removeItem("AuthToken");
     dispatch(UserDetails(null));
     dispatch(UserRole(null));
+    dispatch(AuthToken(null));
     setLogoutModalOpen(false);
     navigate("/");
   };
@@ -111,71 +112,82 @@ const Navbar = () => {
             <div
               className={`w-48 md:w-fit rounded md:flex ${
                 isOpen ? "block" : "hidden"
-              } absolute top-10 left-0 md:relative md:top-0`}
+              } absolute top-8 left-0 md:relative md:top-0`}
             >
-              <div className="flex flex-col md:flex-row md:ml-6 space-y-2 md:space-y-0 bg-blue-200 md:bg-transparent">
+              <div className="flex flex-col md:flex-row md:ml-6 space-y-2 md:space-y-0 bg-slate-300 md:bg-transparent">
                 {/* User Info / Login Button */}
-                {User_Role === "admin" ? (
+                {User_Role === "admin" && (
                   <div className="flex flex-col flex-wrap md:flex-row order-2 md:order-1 ">
                     <Link
                       to="/dashBoard"
                       className="text-black hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                      onClick={() => setIsOpen(false)}
                     >
                       DashBoard
                     </Link>
                     <Link
                       to="/userList"
                       className="text-black hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                      onClick={() => setIsOpen(false)}
                     >
                       User List
                     </Link>
                     <Link
                       to="/faqList"
                       className="text-black hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                      onClick={() => setIsOpen(false)}
                     >
                       FAQ List
                     </Link>
                     <Link
                       to="/courseList"
                       className="text-black hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                      onClick={() => setIsOpen(false)}
                     >
                       Course List
                     </Link>
                     <Link
                       to="/contactRequest"
                       className="text-black hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                      onClick={() => setIsOpen(false)}
                     >
                       Contact Requests
                     </Link>
                     <Link
                       to="/adminTermsOfService"
                       className="text-black hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                      onClick={() => setIsOpen(false)}
                     >
                       Admin Terms of Service
                     </Link>
                     <Link
                       to="/adminPrivacyPolicy"
                       className="text-black hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                      onClick={() => setIsOpen(false)}
                     >
                       Admin Privacy Policy
                     </Link>
                     <Link
                       to="/adminRefundPolicy"
                       className="text-black hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium"
+                      onClick={() => setIsOpen(false)}
                     >
                       Admin Refund Policy
                     </Link>
                   </div>
-                ) : (
-                  ""
                 )}
-                <div className="items-center px-3 py-2 md:px-0 md:py-0 md:ml-4 order-1 md:order-2 flex md:w-60">
+                <div
+                  className={`items-center px-3 py-2 md:px-0 md:py-0 md:ml-4 order-1 md:order-2 flex ${
+                    User_Details ? `md:w-60` : ""
+                  }`}
+                >
                   {User_Details ? (
                     <div className="flex flex-col md:flex-row md:items-center md:w-96">
                       <div
                         className="flex items-center space-x-3 cursor-pointer relative group"
                         onClick={() => {
                           navigate("/myProfile");
+                          setIsOpen(!isOpen);
                         }}
                       >
                         <img
@@ -205,11 +217,12 @@ const Navbar = () => {
                             ? `cursor-default bg-blue-600 border-blue-600`
                             : ""
                         }bg-black text-white hover:bg-blue-600 md:mx-3 my-2 md:my-0 px-3 py-2 rounded-md text-sm font-bold border border-black hover:border-blue-600`}
-                        onClick={() =>
-                          location?.pathname === "/logIn"
-                            ? ""
-                            : navigate("/logIn")
-                        }
+                        onClick={() => {
+                          if (location?.pathname !== "/logIn") {
+                            navigate("/logIn");
+                            setIsOpen(!isOpen);
+                          }
+                        }}
                       >
                         {language?.Login}
                       </button>
@@ -219,22 +232,28 @@ const Navbar = () => {
                             ? `cursor-default bg-blue-600 border-blue-600`
                             : ""
                         }bg-black text-white hover:bg-blue-600 md:mx-3 my-2 md:my-0 px-3 py-2 rounded-md text-sm font-bold border border-black hover:border-blue-600`}
-                        onClick={() =>
-                          location?.pathname === "/signUp"
-                            ? ""
-                            : navigate("/signUp")
-                        }
+                        onClick={() => {
+                          if (location?.pathname !== "/signUp") {
+                            navigate("/signUp");
+                            setIsOpen(!isOpen);
+                          }
+                        }}
                       >
                         {language?.SignUp}
                       </button>
 
-                      <div className="flex items-center justify-center cursor-pointer hover:bg-blue-600 border-2 border-black hover:border-blue-600 p-1 rounded-lg">
+                      <div
+                        className="flex items-center justify-center cursor-pointer hover:bg-blue-600 border-2 border-black hover:border-blue-600 p-1 rounded-lg font-semibold"
+                        onClick={() => {
+                          setIsSelectLanguage((prev) => !prev);
+                          // setIsOpen(!isOpen);
+                        }}
+                      >
                         language
                         <img
                           src={Language}
                           alt="Language"
                           className="h-5 w-5"
-                          onClick={() => setIsSelectLanguage((prev) => !prev)}
                         />
                       </div>
                     </div>

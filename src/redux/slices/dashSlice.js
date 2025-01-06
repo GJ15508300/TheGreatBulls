@@ -2,18 +2,35 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   error: null,
-  boat_register_step1_data: null,
+  FQA_Data_List: null,
+  FQA_Edit_data_: null,
+  Privacy_Policy_Data: null,
+  Privacy_Refund_Data: null,
 };
 
 const dashSlice = createSlice({
   initialState,
   name: "dashboard",
   reducers: {
-    boat_register_step1(state, action) {
-      state.boat_register_step1_data = action.payload;
+    FQA_List(state, action) {
+      state.FQA_Data_List = action.payload;
+    },
+    FQA_Edit_Data(state, action) {
+      state.FQA_Edit_data_ = action.payload;
+    },
+    Get_Privacy_Policy(state, action) {
+      state.Privacy_Policy_Data = action.payload;
+    },
+    Get_Refund_Policy(state, action) {
+      state.Privacy_Refund_Data = action.payload;
     },
   },
 });
-export const { boat_register_step1 } = dashSlice.actions;
+export const {
+  FQA_List,
+  FQA_Edit_Data,
+  Get_Privacy_Policy,
+  Get_Refund_Policy,
+} = dashSlice.actions;
 
 export default dashSlice.reducer;

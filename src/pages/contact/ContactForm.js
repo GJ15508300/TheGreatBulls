@@ -1,7 +1,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { postContactRequest } from "../../services/api";
 
 const ContactForm = () => {
+  const userDetails = useSelector((state) => state?.auth?.userDetails);
+  const authToken = useSelector((state) => state?.auth?.AuthTokenData);
+
   const {
     register,
     handleSubmit,
@@ -10,8 +16,31 @@ const ContactForm = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log("Form Data:", data);
-    reset(); // Reset form fields after submission
+    toast.dismiss();
+    const requestData = {
+      ...data,
+      name: userDetails?.username,
+      email: userDetails?.email,
+    };
+    if (authToken) {
+      console.log("Form Data:", requestData);
+      postContactRequest(requestData, authToken)
+        .then((res) => {
+          if (res?.status === 201) {
+            console.log("Contact Request Response : ", res);
+            reset();
+            toast.success("Contact Request Sent");
+          } else {
+            toast.error("Something went wrong please try again later");
+          }
+        })
+        .catch((error) => {
+          console.log("Contact Request Error : ", error);
+          toast.error("Something went wrong please try again later");
+        });
+    } else {
+      toast.error("Login into your account");
+    }
   };
 
   return (
@@ -24,18 +53,12 @@ const ContactForm = () => {
             Name
           </label>
           <input
+            disabled
+            value={userDetails?.username || ""}
             id="name"
             type="text"
-            className={`w-full px-4 py-2 border ${
-              errors.name ? "border-red-500" : "border-gray-300"
-            } rounded-md focus:outline-none focus:ring-2 ${
-              errors.name ? "focus:ring-red-500" : "focus:ring-blue-500"
-            }`}
-            {...register("name", { required: "Name is required" })}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          {errors.name && (
-            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-          )}
         </div>
 
         {/* Email Field */}
@@ -44,24 +67,12 @@ const ContactForm = () => {
             Email
           </label>
           <input
+            disabled
+            value={userDetails?.email || ""}
             id="email"
             type="email"
-            className={`w-full px-4 py-2 border ${
-              errors.email ? "border-red-500" : "border-gray-300"
-            } rounded-md focus:outline-none focus:ring-2 ${
-              errors.email ? "focus:ring-red-500" : "focus:ring-blue-500"
-            }`}
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-                message: "Invalid email address",
-              },
-            })}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-          )}
         </div>
 
         {/* Mobile Number Field */}

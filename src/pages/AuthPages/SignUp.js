@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { signUp } from "../../services/api";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -13,7 +15,37 @@ const SignUp = () => {
   const onSubmit = (data) => {
     // Add your login logic here using the data object
     console.log("SignUp successfully", data);
-    navigate("/otp");
+    // navigate("/otp");
+    let payload = {
+      email: data?.emailId,
+      password: data?.password,
+      username: data?.name,
+    };
+    console.log("SignUp payload", payload);
+    signUp(payload)
+      .then((res) => {
+        console.log("SignUp Response : ", res?.data);
+        if (res?.data) {
+          //  localStorage.setItem("AuthToken", res?.data?.access_token);
+          //  const decodedToken = jwtDecode(res?.data?.access_token);
+          //  console.log("login result decodedToken", decodedToken);
+          //  dispatch(UserDetails(decodedToken));
+          toast.success("SignUp successful", {
+            autoClose: 1000,
+          });
+          navigate("/emailConfirmation");
+        } else {
+          toast.error("Something wrong, please try again later", {
+            autoClose: 2000,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("SignUp Error : ", err);
+        toast.error(err?.response?.data?.message, {
+          autoClose: 2000,
+        });
+      });
   };
 
   // Watch the password field to compare it with confirmPassword
@@ -26,15 +58,13 @@ const SignUp = () => {
     >
       <h2 className="text-2xl font-semibold mb-4">Create An Account</h2>
       <div className="mb-4">
-        <label className="block text-black font-medium mb-2">
-          First Name :
-        </label>
+        <label className="block text-black font-medium mb-2">Name :</label>
         <input
           type="text"
           className={`w-full p-2 border ${
-            errors.firstName ? "border-red-500" : "border-gray-300"
+            errors.name ? "border-red-500" : "border-gray-300"
           } rounded`}
-          {...register("firstName", {
+          {...register("name", {
             required: "First name is required",
             minLength: {
               value: 3,
@@ -46,10 +76,8 @@ const SignUp = () => {
             },
           })}
         />
-        {errors.firstName && (
-          <p className="text-red-500 text-sm mt-1">
-            {errors.firstName.message}
-          </p>
+        {errors.name && (
+          <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
         )}
       </div>
 

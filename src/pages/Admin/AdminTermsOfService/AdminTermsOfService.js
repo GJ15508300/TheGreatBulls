@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // import axios from "axios";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+// import ReactQuill from "react-quill";
+// import "react-quill/dist/quill.snow.css";
 
 const AdminTermsOfService = () => {
   const [title, setTitle] = useState("");
@@ -30,12 +30,12 @@ const AdminTermsOfService = () => {
       
       <div className="mb-4">
         <label className="block text-sm font-medium mb-1">Content:</label>
-        <ReactQuill
+        {/* <ReactQuill
           value={content}
           onChange={setContent}
           className="bg-white"
           placeholder="Enter the content with formatting"
-        />
+        /> */}
       </div>
       <button
         onClick={handleSave}

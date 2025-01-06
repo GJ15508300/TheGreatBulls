@@ -5,7 +5,11 @@ import EyeOffIcon from "../../assets/images/hide.png";
 import EyeIcon from "../../assets/images/view.png";
 import { useDispatch, useSelector } from "react-redux";
 import { lang } from "../../redux/selector";
-import { loginRequest, UserDetails } from "../../redux/slices/authSlice";
+import {
+  AuthToken,
+  loginRequest,
+  UserDetails,
+} from "../../redux/slices/authSlice";
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 import { login } from "../../services/api";
@@ -24,32 +28,6 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  // useEffect(() => {
-  // console.log(
-  //   "Auth?.authLogin?.data?.access_token",
-  //   Auth?.authLogin?.data?.access_token
-  // );
-
-  // if (Auth?.authLogin?.data?.access_token) {
-  // const token = Auth?.authLogin?.data?.access_token;
-  // console.log("token", token);
-
-  // const decodedToken = jwtDecode(token);
-  // console.log("decodedToken", decodedToken);
-  // dispatch(userDetails(decodedToken));
-  // toast.dismiss();
-  // toast.success("Login successful", {
-  //   autoClose: 10000,
-  // });
-  // navigate("/courseCards");
-  // } else {
-  // toast.dismiss();
-  // toast.error(Auth?.error?.message, {
-  //   autoClose: 20000,
-  // });
-  // }
-  // }, [Auth?.authLogin?.data?.access_token]);
-
   const onSubmit = async (data) => {
     toast.dismiss();
     let payload = {
@@ -61,27 +39,25 @@ const Login = () => {
       .then((res) => {
         // console.log("Login Response : ", res?.data);
         if (res?.data?.access_token) {
+          dispatch(AuthToken(res?.data?.access_token));
           localStorage.setItem("AuthToken", res?.data?.access_token);
           const decodedToken = jwtDecode(res?.data?.access_token);
           console.log("login result decodedToken", decodedToken);
           dispatch(UserDetails(decodedToken));
           toast.success("Login successful", {
-            autoClose: 10,
+            autoClose: 1000,
           });
           navigate("/courseCards");
-          // decodedToken?.role === "student"
-          // ? navigate("/courseCards")
-          // : navigate("/dashBoard");
         } else {
           toast.error("Something wrong, please try again later", {
-            autoClose: 20000,
+            autoClose: 2000,
           });
         }
       })
       .catch((err) => {
         console.log("Login Error : ", err);
-        toast.error(err?.response?.data?.message, {
-          autoClose: 20000,
+        toast.error(err?.response?.data?.message ?? err?.name, {
+          autoClose: 2000,
         });
       });
   };
@@ -172,7 +148,7 @@ const Login = () => {
         {language?.Login}
       </button>
       <div className="text-center mt-4">
-        <a
+        <p
           href="#"
           className="text-sm text-blue-500 hover:underline"
           onClick={(e) => {
@@ -181,9 +157,9 @@ const Login = () => {
           }}
         >
           {language?.ForgotPassword}?
-        </a>
+        </p>
         <div className="mt-2">
-          <a
+          <p
             href="#"
             className="text-sm text-blue-500 hover:underline"
             onClick={() => {
@@ -191,7 +167,7 @@ const Login = () => {
             }}
           >
             {language?.DontHaveAnAccount}? {language?.SignUp}
-          </a>
+          </p>
         </div>
       </div>
     </form>
